@@ -1,5 +1,19 @@
 # 🚀 ShoonyaOne - Autonomous Personal AI Agent
 
+<p align="center">
+  <b>Created & Developed by <a href="https://github.com/vikashpawan626-cloud">Vikash Kumar</a></b><br>
+  <i>An autonomous personal AI assistant specifically engineered for Android / Termux environments.</i>
+</p>
+
+<p align="center">
+  <a href="https://github.com/vikashpawan626-cloud/ShoonyaOne/stargazers"><img src="https://img.shields.io/github/stars/vikashpawan626-cloud/ShoonyaOne?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/vikashpawan626-cloud/ShoonyaOne/network/members"><img src="https://img.shields.io/github/forks/vikashpawan626-cloud/ShoonyaOne?style=flat-square" alt="Forks"></a>
+  <a href="https://github.com/vikashpawan626-cloud/ShoonyaOne/issues"><img src="https://img.shields.io/github/issues/vikashpawan626-cloud/ShoonyaOne?style=flat-square" alt="Issues"></a>
+  <a href="https://github.com/vikashpawan626-cloud"><img src="https://img.shields.io/badge/Author-Vikash%20Kumar-blue?style=flat-square" alt="Author"></a>
+</p>
+
+---
+
 ShoonyaOne ek autonomous personal AI assistant hai jo specifically **Android / Termux** environment ke liye banaya gaya hai (optimized for **Motorola Edge 40 Neo** on **Android 15**).
 
 Yeh assistant user ke natural language (Hindi, Hinglish, English) me diye gaye multi-step commands ko samjhta hai, unka step-by-step execution plan banata hai, real hardware aur system tools ko run karta hai, aur output ko verify karke crisp voice & visual output deta hai.
@@ -107,3 +121,32 @@ Motorola Edge 40 Neo (Android 15) par bina computer ke full device control ke li
    adb connect localhost:<CONNECT_PORT>
    ```
 Ab ShoonyaOne screen par gestures, typing aur apps automation autonomous tareeqe se kar sakta hai!
+
+---
+
+## 👨‍💻 Creator & Lead Developer
+
+**Vikash Kumar**
+- **GitHub:** [@vikashpawan626-cloud](https://github.com/vikashpawan626-cloud)
+- **Repository:** [ShoonyaOne on GitHub](https://github.com/vikashpawan626-cloud/ShoonyaOne)
+- **Email:** [vikashpawan626@gmail.com](mailto:vikashpawan626@gmail.com)
+
+> *ShoonyaOne is an open-source personal AI agent architected, designed, and developed by **Vikash Kumar**.*
+
+---
+
+## 📜 Citation & Reference
+
+Agar aap ShoonyaOne ko kisi project, research, ya blog me refer karte hain, toh kripya is tarah cite karein:
+
+```bibtex
+@software{kumar2026shoonyaone,
+  author = {Vikash Kumar},
+  title = {ShoonyaOne: Autonomous Personal AI Agent for Android and Termux},
+  year = {2026},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/vikashpawan626-cloud/ShoonyaOne}}
+}
+```
+

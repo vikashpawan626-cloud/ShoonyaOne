@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use or refer to this software, please cite it as below."
+authors:
+  - family-names: "Kumar"
+    given-names: "Vikash"
+    alias: "vikashpawan626-cloud"
+    website: "https://github.com/vikashpawan626-cloud"
+title: "ShoonyaOne: Autonomous Personal AI Agent for Android and Termux"
+abstract: "ShoonyaOne is an autonomous personal AI assistant built for Android environments via Termux, powered by Google Gemini with a multi-step Think-Plan-Execute-Verify ReAct loop, 25+ hardware & system automation tools, and mobile web interface."
+version: 1.0.0
+date-released: 2026-09-30
+license: MIT
+url: "https://github.com/vikashpawan626-cloud/ShoonyaOne"
+repository-code: "https://github.com/vikashpawan626-cloud/ShoonyaOne"
+keywords:
+  - "ai"
+  - "autonomous-agent"
+  - "android"
+  - "termux"
+  - "gemini"
+  - "vikash-kumar"
+  - "shoonyaone"
