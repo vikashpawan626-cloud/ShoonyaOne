@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+*$py.class
+shoonyaone.log
+.env
+chat_history.txt
+config.py

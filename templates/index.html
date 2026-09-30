@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ShoonyaOne AI</title>
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#0b0f19">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html, body {
+      height: 100%;
+      height: 100dvh;
+      background-color: #0b0f19;
+      color: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Minimalist Header */
+    header {
+      flex-shrink: 0;
+      background: #111827;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #06b6d4, #2563eb);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #fff;
+    }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.12);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .status-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+
+    /* Flexible Chat Scroll Area */
+    #chat-container {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 86%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.45;
+      word-wrap: break-word;
+      animation: fadeIn 0.2s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: #2563eb;
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+    }
+    .message.agent {
+      align-self: flex-start;
+      background: #1f2937;
+      color: #f3f4f6;
+      border-bottom-left-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Step / Reasoning Card */
+    .reasoning-box {
+      margin-top: 6px;
+      background: rgba(11, 15, 25, 0.6);
+      border-left: 3px solid #06b6d4;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .reasoning-box .step-title {
+      font-weight: 600;
+      color: #38bdf8;
+      margin-bottom: 2px;
+    }
+
+    /* Fixed Bottom Input Bar - 100% Visible on all screens */
+    .input-bar {
+      flex-shrink: 0;
+      background: #111827;
+      padding: 10px 12px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      z-index: 50;
+    }
+
+    .input-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: #1f2937;
+      border-radius: 24px;
+      padding: 2px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .input-wrapper input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      padding: 10px 4px;
+      font-size: 15px;
+      outline: none;
+    }
+    .input-wrapper input::placeholder {
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .btn-action {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .btn-action:active {
+      transform: scale(0.92);
+    }
+
+    .btn-mic {
+      background: #ef4444;
+      color: #ffffff;
+    }
+    .btn-mic.listening {
+      animation: micPulse 1s infinite alternate;
+      background: #10b981;
+    }
+    @keyframes micPulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); box-shadow: 0 0 14px #10b981; }
+    }
+
+    .btn-send {
+      background: #0284c7;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-robot"></i></div>
+      <div class="brand-title">ShoonyaOne</div>
+    </div>
+    <div class="status-badge">
+      <div class="dot"></div> Online
+    </div>
+  </header>
+
+  <div id="chat-container">
+    <div class="message agent">
+      Namaste <strong>Vikash</strong>! ShoonyaOne ready hai. Kuch bhi bolein ya type karein.
+    </div>
+  </div>
+
+  <!-- Bottom Input Bar: Always Visible -->
+  <div class="input-bar">
+    <button class="btn-action btn-mic" id="mic-btn" title="Speak">
+      <i class="fa-solid fa-microphone"></i>
+    </button>
+    <div class="input-wrapper">
+      <input type="text" id="user-input" placeholder="Yahan type karein ya mic dabayein..." autocomplete="off">
+    </div>
+    <button class="btn-action btn-send" id="send-btn" title="Send">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+  </div>
+
+  <script>
+    const chatContainer = document.getElementById('chat-container');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const micBtn = document.getElementById('mic-btn');
+
+    function cleanMarkdown(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code style="background:rgba(255,255,255,0.1);padding:1px 4px;border-radius:3px;">$1</code>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function appendMessage(text, sender, reasoning = null) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${sender}`;
+      msgDiv.innerHTML = cleanMarkdown(text);
+
+      if (reasoning && reasoning !== 'Direct Autonomous Execution' && reasoning !== 'Autonomous direct execution') {
+        const rBox = document.createElement('div');
+        rBox.className = 'reasoning-box';
+        rBox.innerHTML = `<div class="step-title"><i class="fa-solid fa-bolt"></i> Executed Steps:</div>${reasoning}`;
+        msgDiv.appendChild(rBox);
+      }
+
+      chatContainer.appendChild(msgDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // Voice response
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const clean = text.replace(/[*#_`]/g, '');
+      const utterance = new SpeechSynthesisUtterance(clean);
+      utterance.lang = 'hi-IN';
+      utterance.rate = 1.05;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    async function sendCommand(prompt) {
+      if (!prompt || !prompt.trim()) return;
+      const cleanPrompt = prompt.trim();
+      appendMessage(cleanPrompt, 'user');
+      userInput.value = '';
+
+      // Typing loader
+      const loaderDiv = document.createElement('div');
+      loaderDiv.className = 'message agent';
+      loaderDiv.id = 'temp-loader';
+      loaderDiv.innerHTML = '<em><i class="fa-solid fa-spinner fa-spin"></i> Kaam ho raha hai...</em>';
+      chatContainer.appendChild(loaderDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: cleanPrompt })
+        });
+        const data = await response.json();
+        loaderDiv.remove();
+
+        appendMessage(data.reply, 'agent', data.reasoning);
+        speakText(data.reply);
+      } catch (err) {
+        loaderDiv.remove();
+        appendMessage('Connection error. Dobara try karein.', 'agent');
+      }
+    }
+
+    sendBtn.addEventListener('click', () => sendCommand(userInput.value));
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendCommand(userInput.value);
+    });
+
+    // Voice Input (Web Speech Recognition + Termux STT Fallback)
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'hi-IN';
+      recognition.continuous = false;
+
+      micBtn.addEventListener('click', () => {
+        micBtn.classList.add('listening');
+        recognition.start();
+      });
+
+      recognition.onresult = (e) => {
+        micBtn.classList.remove('listening');
+        const transcript = e.results[0][0].transcript;
+        sendCommand(transcript);
+      };
+
+      recognition.onerror = () => {
+        micBtn.classList.remove('listening');
+      };
+
+      recognition.onend = () => {
+        micBtn.classList.remove('listening');
+      };
+    } else {
+      micBtn.addEventListener('click', () => {
+        fetch('/api/voice_listen')
+          .then(res => res.json())
+          .then(data => {
+            if (data.text) sendCommand(data.text);
+          });
+      });
+    }
+
+    // Auto-load history
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/api/history');
+        const data = await res.json();
+        if (data.history && data.history.length > 0) {
+          data.history.forEach(item => {
+            appendMessage(item.text, item.sender);
+          });
+        }
+      } catch (e) {}
+    });
+  </script>
+</body>
+</html>
